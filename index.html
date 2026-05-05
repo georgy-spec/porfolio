@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Georgy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f0f1a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a2e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #6c63ff;
+            border-radius: 10px;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            background: rgba(15, 15, 26, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6c63ff, #a855f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #6c63ff;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: #6c63ff;
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #6c63ff, #5a52d6);
+            padding: 8px 28px;
+            border-radius: 30px;
+            color: white !important;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.4);
+        }
+
+        /* ============ HERO SLIDER SECTION ============ */
+        .hero-slider {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Slide Backgrounds */
+        .slide-1 {
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a3e 100%);
+        }
+        .slide-2 {
+            background: linear-gradient(135deg, #0a0a2a 0%, #2a1a3e 100%);
+        }
+        .slide-3 {
+            background: linear-gradient(135deg, #0a0f1a 0%, #1a2a3e 100%);
+        }
+
+        /* Slide Content */
+        .slide-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 120px 10% 60px;
+            flex-wrap: wrap;
+            gap: 50px;
+            height: 100%;
+        }
+
+        .slide-text {
+            flex: 1;
+            min-width: 300px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .slide-text h3 {
+            font-size: 18px;
+            color: #6c63ff;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+        }
+
+        .slide-text h1 {
+            font-size: 60px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        .slide-text h1 span {
+            background: linear-gradient(135deg, #6c63ff, #a855f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .slide-text p {
+            color: #b8c6db;
+            font-size: 18px;
+            margin-bottom: 35px;
+            line-height: 1.6;
+        }
+
+        .slide-image {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+            animation: fadeInRight 0.8s ease-out;
+        }
+
+        .slide-image img {
+            max-width: 100%;
+            border-radius: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Slider Navigation Arrows */
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .slider-arrow:hover {
+            background: #6c63ff;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .prev-arrow {
+            left: 30px;
+        }
+
+        .next-arrow {
+            right: 30px;
+        }
+
+        .slider-arrow i {
+            font-size: 24px;
+            color: white;
+        }
+
+        /* Slider Dots */
+        .slider-dots {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: #6c63ff;
+            width: 30px;
+            border-radius: 10px;
+        }
+
+        .dot:hover {
+            background: #6c63ff;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #6c63ff, #a855f7);
+            z-index: 10;
+            transition: width 0.1s linear;
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #6c63ff, #5a52d6);
+            padding: 12px 32px;
+            border-radius: 40px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(108, 99, 255, 0.4);
+            
+        }
+
+        .btn-outline {
+            border: 2px solid #6c63ff;
+            padding: 10px 30px;
+            border-radius: 40px;
+            color: #6c63ff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: #6c63ff;
+            color: white;
+            box-shadow: 0 10px 25px rgba(108, 99, 255, 0.4);
+            transform: translateY(-3px);
+        }
+
+        /* Skills Section */
+        .skills {
+            padding: 80px 10%;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 42px;
+            margin-bottom: 55px;
+            font-weight: 700;
+        }
+
+        .section-title span {
+            background: linear-gradient(135deg, #6c63ff, #a855f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .skill-card {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 35px 20px;
+            border-radius: 24px;
+            transition: 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-8px);
+            border-color: #6c63ff;
+        }
+
+        .skill-card i {
+            font-size: 50px;
+            color: #6c63ff;
+            margin-bottom: 18px;
+        }
+
+        .skill-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 80px 10%;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: #6c63ff;
+        }
+
+        .project-img {
+            height: 220px;
+            background: linear-gradient(135deg, #6c63ff, #a855f7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 70px;
+        }
+
+        .project-info {
+            padding: 28px;
+        }
+
+        .project-info h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .project-info p {
+            color: #b8c6db;
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+        .project-tech {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 22px;
+        }
+
+        .project-tech span {
+            background: rgba(108, 99, 255, 0.15);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 12px;
+            color: #6c63ff;
+            font-weight: 500;
+        }
+
+        .project-link {
+            color: #6c63ff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* About Section */
+        .about {
+            padding: 80px 10%;
+            background: rgba(255, 255, 255, 0.02);
+            display: flex;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .about-content {
+            flex: 1;
+        }
+
+        .about-content h2 {
+            font-size: 38px;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .about-content p {
+            color: #b8c6db;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 35px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat h4 {
+            font-size: 36px;
+            color: #6c63ff;
+            font-weight: 700;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 80px 10%;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .contact p {
+            color: #b8c6db;
+            margin-bottom: 35px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 45px;
+        }
+
+        .social-links a {
+            width: 55px;
+            height: 55px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover {
+            background: #6c63ff;
+            transform: translateY(-5px);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 35px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            color: #b8c6db;
+            font-size: 14px;
+        }
+
+        .contact p{
+            margin-left: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+            .nav-links {
+                gap: 18px;
+            }
+            .slide-text h1 {
+                font-size: 36px;
+            }
+            .section-title {
+                font-size: 32px;
+            }
+            .slider-arrow {
+                width: 40px;
+                height: 40px;
+            }
+            .prev-arrow {
+                left: 15px;
+            }
+            .next-arrow {
+                right: 15px;
+            }
+            .stats {
+                gap: 25px;
+            }
+            .stat h4 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Georgy Renaldo</div>
+        <div class="nav-links">
+
+            <a href="#home">Home</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+            <a href="login.html" class="login-btn" id="loginNavBtn">Login</a>
+        </div>
+    </nav>
+
+    <section id="home" class="hero-slider">
+        <div class="slider-container">
+            <!-- Slide 1 -->
+            <div class="slide slide-1 active">
+                <div class="slide-content">
+                    <div class="slide-text">
+                        <h1>Hallo i'm <span>Georgy</span></h1>
+                        <h1 style="font-size: 40px;">i'm a build Web Designer</h1>
+                        <p>I create beautiful, functional, and user-friendly websites and applications. With 5+ years of experience, I deliver high-quality digital solutions.</p>
+                        <div class="btn-group">
+                            <a href="#projects" class="btn-primary">View Projects</a>
+                            <a href="#contact" class="btn-outline">Contact Me</a>
+                        </div>
+                    </div>
+                    <div class="slide-image">
+                        <img src="c:\Users\User\OneDrive\Pictures\foto\Tristan bf1.jpg.jpeg" alt="Developer">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide slide-2">
+                <div class="slide-content">
+                    <div class="slide-text">
+                        <h1>I'm build <span>Amazing</span></h1>
+                        <h1 style="font-size: 40px;">Digital Experiences</h1>
+                        <p>From concept to deployment, I create responsive websites, web applications.</p>
+                        <div class="btn-group">
+                            <a href="#skills" class="btn-primary">My Skills</a>
+                            <a href="#contact" class="btn-outline">Hire Me</a>
+                        </div>
+                    </div>
+                    <div class="slide-image">
+                        <img src="c:\Users\User\OneDrive\Pictures\foto\control.jpg - Copy.jpeg" alt="Developer">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide slide-3">
+                <div class="slide-content">
+                    <div class="slide-text">
+                        <h1>2+ <span>Projects</span></h1>
+                        <h1 style="font-size: 40px;">Completed Successfully</h1>
+                        <p>I've worked with startups, agencies, and established companies to bring their ideas to life. Let's work together on your next project!</p>
+                        <div class="btn-group">
+                            <a href="#projects" class="btn-primary">See Projects</a>
+                            <a href="#contact" class="btn-outline">Let's Talk</a>
+                        </div>
+                    </div>
+                    <div class="slide-image">
+                        <img src="c:\Users\User\OneDrive\Pictures\foto\pain di scond sea.jpg.jpeg" alt="Achievements">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slider-arrow prev-arrow" id="prevSlide">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="slider-arrow next-arrow" id="nextSlide">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+
+            <div class="slider-dots" id="sliderDots">
+                <div class="dot active" data-slide="0"></div>
+                <div class="dot" data-slide="1"></div>
+                <div class="dot" data-slide="2"></div>
+            </div>
+
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </section>
+    <section id="skills" class="skills">
+        <h2 class="section-title">My <span>Skills</span></h2>
+        <div class="skills-grid">
+            <div class="skill-card"><i class="fab fa-html5"></i><h3>HTML</h3></div>
+            <div class="skill-card"><i class="fab fa-css3-alt"></i><h3>CSS</h3></div>
+            <div class="skill-card"><i class="fab fa-js"></i><h3>JavaScript</h3></div>
+            <div class="skill-card"><i class="fab fa-python"></i><h3>Python</h3></div>
+        </div>
+    </section>
+    <section id="projects" class="projects">
+        <h2 class="section-title">Featured <span>Projects</span></h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-img">Spotify</div>
+                <div class="project-info">
+                    <h3>Spotify KW</h3>
+                    <p>Tempat mendengar lagu. incoming soon</p>
+                    <div class="project-tech"><span>React</span><span>Tailwind</span></div>
+                    <a href="#" class="project-link">Live Demo →</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-img">Game</div>
+                <div class="project-info">
+                    <h3>Game</h3>
+                    <p>Tempat bermain tebak angka. incoming soon</p>
+                    <div class="project-tech"><span>Next.js</span><span>MongoDB</span></div>
+                    <a href="#" class="project-link">Live Demo →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="about" class="about">
+        <div class="about-content">
+            <h2>About <span style="color:#6c63ff">Me</span></h2>
+            <p>I'm a passionate web developer with over 5 years of experience creating digital solutions that make a difference. I specialize in front-end development and UI/UX design.</p>
+            <p>My journey in tech started when I built my first website at 15. Since then, I've worked with startups, agencies, and established companies to bring their ideas to life.</p>
+            <div class="stats">
+                <div class="stat"><h4>2+</h4><p>Years</p></div>
+                <div class="stat"><h4>2+</h4><p>Projects</p></div>
+                <div class="stat"><h4>0+</h4><p>Clients</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2>Let's <span style="color:#6c63ff">Work</span> Together</h2>
+        <p>Have a project in mind? Let's discuss and bring your ideas to life.</p>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-tiktok"></i></a>
+        </div>
+        <a href="mailto:hello@example.com" class="btn-primary" style="display: inline-block;">hello@example.com</a>
+        <p>#COBA-COBA hehehehheheheehheh 🙏</p>
+        
+    </section>
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        const prevBtn = document.getElementById('prevSlide');
+        const nextBtn = document.getElementById('nextSlide');
+        const progressBar = document.getElementById('progressBar');
+
+        let currentSlide = 0;
+        let slideInterval;
+        let progressWidth = 0;
+        let isPlaying = true;
+        const slideDuration = 5000;
+        const progressInterval = 50;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            
+            currentSlide = index;
+            
+            resetProgressBar();
+            
+            resetInterval();
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function startProgressBar() {
+            progressWidth = 0;
+            const startTime = Date.now();
+            
+            const updateProgress = () => {
+                if (!isPlaying) return;
+                
+                const elapsed = Date.now() - startTime;
+                progressWidth = (elapsed / slideDuration) * 100;
+                
+                if (progressWidth >= 100) {
+                    progressBar.style.width = '100%';
+                    nextSlide();
+                } else {
+                    progressBar.style.width = `${progressWidth}%`;
+                    requestAnimationFrame(updateProgress);
+                }
+            };
+            
+            requestAnimationFrame(updateProgress);
+        }
+
+        function resetProgressBar() {
+            progressBar.style.width = '0%';
+            startProgressBar();
+        }
+
+        function resetInterval() {
+            if (slideInterval) {
+                clearInterval(slideInterval);
+            }
+            slideInterval = setInterval(() => {
+                if (isPlaying) {
+                    nextSlide();
+                }
+            }, slideDuration);
+        }
+
+        const sliderContainer = document.querySelector('.hero-slider');
+        sliderContainer.addEventListener('mouseenter', () => {
+            isPlaying = false;
+        });
+        
+        sliderContainer.addEventListener('mouseleave', () => {
+            isPlaying = true;
+            resetInterval();
+            resetProgressBar();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            prevSlide();
+            resetInterval();
+            resetProgressBar();
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            nextSlide();
+            resetInterval();
+            resetProgressBar();
+        });
+        
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+                resetInterval();
+                resetProgressBar();
+            });
+        });
+
+        showSlide(0);
+
+        document.querySelectorAll('.nav-links a[href^="#"], .btn-primary[href^="#"], .btn-outline[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(15, 15, 26, 0.98)';
+            } else {
+                navbar.style.background = 'rgba(15, 15, 26, 0.95)';
+            }
+        });
+
+
+        function checkLoginStatus() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const loginBtn = document.getElementById('loginNavBtn');
+            
+            if (isLoggedIn === 'true') {
+                const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+                const username = currentUser.username || 'User';
+                loginBtn.textContent = `Hi, ${username}`;
+                loginBtn.href = 'dashboard.html';
+            } else {
+                loginBtn.textContent = 'Login';
+                loginBtn.href = 'login.html';
+            }
+        }
+        
+        checkLoginStatus();
+    </script>
+</body>
+</html>
